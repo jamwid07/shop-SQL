@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS `shop`.`customer` (
   `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `country_id` INT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  INDEX `fk_customer_country_idx` (`country_id` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  INDEX `fk_customer_country_idx` (`country_id` ASC),
   CONSTRAINT `fk_customer_country`
     FOREIGN KEY (`country_id`)
     REFERENCES `shop`.`country` (`id`)
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `shop`.`order` (
   `date` DATETIME NULL DEFAULT NOW(),
   `customer_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_order_customer1_idx` (`customer_id` ASC) VISIBLE,
+  INDEX `fk_order_customer1_idx` (`customer_id` ASC),
   CONSTRAINT `fk_order_customer1`
     FOREIGN KEY (`customer_id`)
     REFERENCES `shop`.`customer` (`id`)
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `shop`.`invoice` (
   `due` DATETIME NULL,
   `order_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_invoice_order1_idx` (`order_id` ASC) VISIBLE,
+  INDEX `fk_invoice_order1_idx` (`order_id` ASC),
   CONSTRAINT `fk_invoice_order1`
     FOREIGN KEY (`order_id`)
     REFERENCES `shop`.`order` (`id`)
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `shop`.`payment` (
   `amount` DOUBLE NULL,
   `invoice_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_payment_invoice1_idx` (`invoice_id` ASC) VISIBLE,
+  INDEX `fk_payment_invoice1_idx` (`invoice_id` ASC),
   CONSTRAINT `fk_payment_invoice1`
     FOREIGN KEY (`invoice_id`)
     REFERENCES `shop`.`invoice` (`id`)
@@ -124,8 +124,8 @@ CREATE TABLE IF NOT EXISTS `shop`.`order_has_product` (
   `product_id` INT NOT NULL,
   `product_amount` INT NULL DEFAULT 1,
   PRIMARY KEY (`order_id`, `product_id`),
-  INDEX `fk_order_has_product_product1_idx` (`product_id` ASC) VISIBLE,
-  INDEX `fk_order_has_product_order1_idx` (`order_id` ASC) VISIBLE,
+  INDEX `fk_order_has_product_product1_idx` (`product_id` ASC),
+  INDEX `fk_order_has_product_order1_idx` (`order_id` ASC),
   CONSTRAINT `fk_order_has_product_order1`
     FOREIGN KEY (`order_id`)
     REFERENCES `shop`.`order` (`id`)

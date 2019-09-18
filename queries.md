@@ -4,26 +4,35 @@
 
 1. Invoices issued after their due date. Return all attributes.
 ```sql
-SELECT * FROM invoices
-	WHERE issued > due;
+SELECT * FROM invoice
+    WHERE issued > due;
 ```
 
 2. Invoices that were issued before the date in which the order they refer to was placed.
 Return the ID of the invoice, the date it was issued, the ID of the order associated with it
 and the date the order was placed.
 ```sql
-
+SELECT i.id, i.issued, i.order_id, o.date 'order_date'
+FROM 'invoice' i
+    LEFT JOIN 'order' o ON o.id=i.order_id
+    WHERE i.issued < o.date
 ```
 
 3. Orders that do not have a detail and were placed before 6 September 2016. Return all
 attributes.
 ```sql
-
+SELECT * FROM 'order' o
+    OUTER JOIN 'order_has_product' op ON o.id=op.order_id
+    WHERE o.date < '2016-09-06'
 ```
 
 4. Customers who have not placed any orders in 2016. Return all attributes.
 ```sql
-
+SELECT * FROM 'customer' c
+    WHERE c.id NOT IN (
+		SELECT o.customer_id FROM 'order' o
+		    WHERE YEAR(o.date) = 2016
+    )
 ```
 
 5. ID and name of customers and the date of their last order. For customers who did not
